@@ -41,8 +41,6 @@ const SeeMore = () => {
                         <h3 className="text-info">Mass: <span className="text-warning">{elemento ? elemento.mass : "Loading..."}</span></h3>
                         <h3 className="text-info">Skin color: <span className="text-warning">{elemento ? elemento.skin_color : "Loading..."}</span></h3>
 
-
-
                         <button className="btn btn-outline-light mt-auto w-25" type="button" onClick={() => navigate('/')}>
                             Back to home
                         </button>
@@ -55,7 +53,7 @@ const SeeMore = () => {
             <div className="container">
                 <div className="card mb-3 d-flex flex-row bg-dark border-0 mt-4">
                     <div className="overflow-hidden mh-100 w-auto card-img-overlay-gradient">
-                        <img src={url} onError={(e)=> e.target.src = imgPlanets} className="card-img-start" alt="..." />
+                        <img src={url} onError={(e) => e.target.src = imgPlanets} className="card-img-start" alt="..." />
                     </div>
                     <div className="card-body text-light ms-5 d-flex flex-column">
                         <h5 className="card-title display-1">{elemento ? elemento.name : "Loading..."}</h5>
@@ -75,7 +73,7 @@ const SeeMore = () => {
             </div>
         );
     }
-   
+
 };
 
 export default SeeMore;

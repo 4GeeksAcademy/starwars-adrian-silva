@@ -61,7 +61,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			removeFavorite: (name) => {
 				const store = getStore();
 				setStore({ favorites: store.favorites.filter(elm => elm.name !== name) });
-				console.log(`el elemento con el name ${name} ha sido eliminado`);
+				console.log(`Elemento con name ${name} ha sido eliminado`);
 			},
 
 			exampleFunction: () => {
