@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -7,7 +7,7 @@ import CardPeople from "./cardPeople.jsx";
 import CardPlanet from "./cardPlanet.jsx";
 
 const Carousel = ({ items }) => {
-    const { actions, store } = useContext(Context);
+    const { store } = useContext(Context);
     const settings = {
         dots: true,
         infinite: true,
@@ -19,14 +19,19 @@ const Carousel = ({ items }) => {
         adaptiveHeight: true,
     };
 
-    if (items === "people") {
+    const getUrlParts = (url) => {
+        if (!url) return null;
+        const parts = url.split("/");
+        return parts[5];
+    };
+
+    if (items === "character") {
         return (
             <Slider {...settings}>
-                {store.people.map((elm, idx) => {
-                    const partsUrl = elm.url.split("/");
-                    const url = `https://starwars-visualguide.com/assets/img/characters/${parseInt(
-                        partsUrl[5]
-                    )}.jpg`;
+                {store.character?.map((elm, idx) => {
+                    const id = getUrlParts(elm.url);
+                    if (!id) return null;
+                    const url = `https://starwars-visualguide.com/assets/img/characters/${parseInt(id)}.jpg`;
                     return <CardPeople key={idx} elm={elm} idx={idx} url={url} items={items} />;
                 })}
             </Slider>
@@ -34,14 +39,17 @@ const Carousel = ({ items }) => {
     } else if (items === "planets") {
         return (
             <Slider {...settings}>
-                {store.planets.map((elm, idx) => {
-                    const urlParts = elm.url.split('/')
-                    const url = `https://starwars-visualguide.com/assets/img/planets/${parseInt(urlParts[5])}.jpg`;
+                {store.planets?.map((elm, idx) => {
+                    const id = getUrlParts(elm.url);
+                    if (!id) return null;
+                    const url = `https://starwars-visualguide.com/assets/img/planets/${parseInt(id)}.jpg`;
                     return <CardPlanet key={idx} elm={elm} idx={idx} url={url} items={items} />;
                 })}
             </Slider>
         );
     }
+
+    return null;
 };
 
 export default Carousel;

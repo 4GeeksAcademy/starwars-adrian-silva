@@ -6,6 +6,7 @@ import { Home } from "./views/home";
 import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import SeeMore from "./views/seeMore";
+import CreatePlanetForm from "./views/createPlanetForm";
 
 const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -21,6 +22,7 @@ const Layout = () => {
 						<Route path="/" element={<Home />} />
 						<Route path="*" element={<h1>Not found!</h1>} />
 						<Route path="/seemore/:items/:name" element={<SeeMore />} />
+						<Route path="/create-planet" element={<CreatePlanetForm />} />
 					</Routes>
 				</ScrollToTop>
 			</BrowserRouter>

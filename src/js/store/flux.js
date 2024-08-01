@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			people: [],
+			character: [],
 			planets: [],
 			favorites: []
 		},
@@ -10,48 +10,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 			fetchToGetAllItems: async (items) => {
 				const store = getStore();
 
-				let page = 1;
-				let thereIsMorePages = true;
 				let arrItems = [];
+				let url = '';
+				console.log('items:', items);	
+				switch(items){
+					case 'planets':
+						url = process.env.BACKEND_URL + '/planet';
+						break;
+					case 'character':
+						url = process.env.BACKEND_URL + '/character';
+						break;
+					default:
+						console.error("Item not recognized");
+						return;
+				}
 
-				while (thereIsMorePages) {
-					let url = `https://swapi.dev/api/${items}/?page=${page}`;
-					try {
-						const res = await fetch(url);
-						if (res.ok) {
-							const data = await res.json();
-							data.results.forEach(element => {
-								arrItems = [...arrItems, element];
-							});
-							if (data.next) {
-								page++;
-							} else {
-								page = 1;
-								thereIsMorePages = !thereIsMorePages;
-							}
+				try {
+					const res = await fetch(url);
+					if (res.ok) {
+						const data = await res.json();
+						
+						console.log('Data received:', data);
+						
+						arrItems = data.results || [];
 
-							switch (items) {
-								case 'planets':
-									setStore({ planets: arrItems });
-									break;
-								case 'people':
-									setStore({ people: arrItems });
-									break;
-								default:
-									break;
-							}
+						//actualiza el store con los datos obtenidos
+						switch (items) {
+							case 'planets':
+								setStore({ planets: arrItems})
+								break;
+							case 'people':
+								setStore({ character: arrItems})
+								break;
+							default:
+								break;
 						}
-					} catch (error) {
-						throw new Error(error);
+					}else{
+						console.error("Error fetching data:", res.statusText);
 					}
+					
+				} catch (error) {
+					console.error("Error fetching data: ", error);
 				}
 			},
 
 			addFavorite: (items, index) => {
 				const store = getStore();
 				let newFavorite;
-				if (items === 'people') {
-					newFavorite = store.people[index];
+				if (items === 'characters') {
+					newFavorite = store.character[index];
 				} else {
 					newFavorite = store.planets[index];
 				}

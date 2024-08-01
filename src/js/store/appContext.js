@@ -23,7 +23,7 @@ const injectContext = PassedComponent => {
 
 		useEffect(() => {
 			state.actions.fetchToGetAllItems('planets')
-			state.actions.fetchToGetAllItems('people')
+			state.actions.fetchToGetAllItems('character')
 			/**
 			 * EDIT THIS!
 			 * This function is the equivalent to "window.onLoad", it only runs once on the entire application lifetime
