@@ -3,9 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 const CreatePlanetForm = () => {
 	const { actions } = useContext(Context);
+  const navigate = useNavigate();
 
 	const initialValues = {
 		name: "",
@@ -35,6 +37,7 @@ const CreatePlanetForm = () => {
 		actions.addPlanet(values).then(() => {
 			setSubmitting(false);
 			resetForm();
+      navigate('/');
 		});
 	};
 

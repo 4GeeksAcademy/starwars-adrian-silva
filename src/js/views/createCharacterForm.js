@@ -3,9 +3,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
+import { Navigate, useNavigate } from "react-router";
 
 const CharacterForm = () => {
     const { actions } = useContext(Context);
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -17,7 +19,6 @@ const CharacterForm = () => {
             eye_color: '',
             birth_year: '',
             gender: '',
-            homeworld: '',
         },
         validationSchema: Yup.object({
             name: Yup.string().required('Required'),
@@ -28,12 +29,12 @@ const CharacterForm = () => {
             eye_color: Yup.string().required('Required'),
             birth_year: Yup.string().required('Required'),
             gender: Yup.string().required('Required'),
-            homeworld: Yup.string().required('Required'),
         }),
         onSubmit: (values, { setSubmitting, resetForm }) => {
             actions.addCharacter(values);
             setSubmitting(false);
             resetForm();
+            navigate('/');
         },
     });
 
@@ -159,21 +160,6 @@ const CharacterForm = () => {
                     />
                     {formik.touched.gender && formik.errors.gender ? (
                         <div className="invalid-feedback">{formik.errors.gender}</div>
-                    ) : null}
-                </div>
-                <div className="form-group mb-3">
-                    <label htmlFor="homeworld">Homeworld</label>
-                    <input
-                        id="homeworld"
-                        name="homeworld"
-                        type="text"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.homeworld}
-                        className={`form-control ${formik.touched.homeworld && formik.errors.homeworld ? 'is-invalid' : ''}`}
-                    />
-                    {formik.touched.homeworld && formik.errors.homeworld ? (
-                        <div className="invalid-feedback">{formik.errors.homeworld}</div>
                     ) : null}
                 </div>
                 <button type="submit" className="btn btn-primary">
