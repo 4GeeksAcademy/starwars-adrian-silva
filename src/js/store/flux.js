@@ -71,6 +71,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(`Elemento con name ${name} ha sido eliminado`);
 			},
 
+			addPlanet: async (planetData) => {
+				const url = process.env.BACKEND_URL + '/planet';
+				try {
+					const response = await fetch(url, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(planetData)
+					});
+
+					if (response.ok) {
+						const data = await response.json();
+						console.log("Planet created successfully:", data);
+						// Puedes actualizar el estado local aquí si es necesario
+					} else {
+						const errorData = await response.json();
+						console.error("Error creating planet:", errorData.msg);
+					}
+				} catch (error) {
+					console.error("Error creating planet:", error);
+				}
+
+			},
+
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			}
