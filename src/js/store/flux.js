@@ -32,14 +32,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						
 						console.log('Data received:', data);
 						
-						arrItems = data.results || [];
+						arrItems = Array.isArray(data) ? data : data.results || [];
 
 						//actualiza el store con los datos obtenidos
 						switch (items) {
 							case 'planets':
 								setStore({ planets: arrItems})
 								break;
-							case 'people':
+							case 'character':
 								setStore({ character: arrItems})
 								break;
 							default:
@@ -93,7 +93,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error("Error creating planet:", error);
 				}
+			},
 
+			addCharacter: async(characterPlanet) => {
+				const url = process.env.BACKEND_URL + '/character';
+				try {
+					const response = await fetch(url,{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(characterPlanet)
+					});
+
+					if (response.ok) {
+						const data = await response.json();
+						console.log("Character created successfully:", data);
+					} else {
+						const errorData = await response.json();
+						console.log("Error creating character:", errorData.msg); 
+					}
+				} catch (error) {
+					console.error("Error creating character", error);
+					
+				}
 			},
 
 			exampleFunction: () => {
